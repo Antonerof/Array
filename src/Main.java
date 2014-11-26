@@ -13,41 +13,54 @@ public class Main {
         System.out.println(Arrays.toString(a.arr));
         a.delFromArray(1);
         System.out.println(Arrays.toString(a.arr));
-        System.out.println(a.isExist(1));
+        System.out.println(a.ifExist(1));
+        a.addToArray(782);
+        System.out.println(Arrays.toString(a.arr));
+        a.delFromArray(34);
+        System.out.println(Arrays.toString(a.arr));
     }
 
-    public static class ArrayCollectionOfInt{
-        private int[] arr = new int[0];
+    public static class ArrayCollectionOfInt{ //Множество
+        private int[] arr = new int[0]; //Массив для записи множества
 
-        public void addToArray(int a){ //Добавляет к массиву значение "а"
-            int[] arrNew = new int[arr.length + 1];
-            if (arr.length != 0) {
+        public void addToArray(int a){ //Добавляет к массиву значение "а" если его еще нет в массиве
+            if (!ifExist(a)) {
+                int[] arrNew = new int[arr.length + 1];
+                if (arr.length != 0) {
+                    for (int i = 0; i < arr.length; i++) {
+                        arrNew[i] = arr[i];
+                    }
+                }
+                arrNew[arrNew.length - 1] = a;
+                arr = new int[arrNew.length];
                 for (int i = 0; i < arr.length; i++) {
-                    arrNew[i] = arr[i];
+                    arr[i] = arrNew[i];
                 }
             }
-            arrNew[arrNew.length - 1] = a;
-            System.out.println(arrNew[arrNew.length - 1]);
-            arr = new int[arrNew.length];
+        }
+
+        public void delFromArray(int b){ //Удаляет из массива элемент "b"
+            int a = 0;
             for (int i = 0; i < arr.length; i++){
-                arr[i] = arrNew[i];
+                if (arr[i] == b) {
+                    a = i;
+                    break;
+                }
+            }
+            if (ifExist(b)) {
+                int[] arrNew = new int[arr.length];
+                for (int i = 0; i < arr.length - 1; i++) {
+                    if (i >= a) arrNew[i] = arr[i + 1];
+                    else arrNew[i] = arr[i];
+                }
+                arr = new int[arrNew.length - 1];
+                for (int i = 0; i < arr.length; i++) {
+                    arr[i] = arrNew[i];
+                }
             }
         }
 
-        public void delFromArray(int a){ //Удаляет из массива элемент с индексом "а"
-            int[] arrNew = new int[arr.length];
-            for (int i = 0; i < arr.length - 1; i++){
-                if (i >= a) arrNew[i] = arr[i + 1];
-                else arrNew[i] = arr[i];
-            }
-            arr = new int[arrNew.length - 1];
-            for (int i = 0; i < arr.length; i++){
-                arr[i] = arrNew[i];
-            }
-
-        }
-
-        public boolean isExist(int a){ //Проверяет существует ли в массиве элемент с значением "а"
+        public boolean ifExist(int a){ //Проверяет существует ли в массиве элемент с значением "а"
             for (int i = 0; i < arr.length; i++){
                 if (arr[i] == a) return true;
             }
